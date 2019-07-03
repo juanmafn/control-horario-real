@@ -27,7 +27,8 @@ function getDiferenciaEnSegundos() {
 }
 
 function getSegundosConsumidosCerdito() {
-	let numDiasTrabajados = $('td').filter(x => /\d{2}\/\d{2}\/\d{4}.*?[a-zA-Z]/.test($('td')[x].innerText.replace("\n", ""))).length;
+	let tdsDias = $('td').filter(x => /\d{2}\/\d{2}\/\d{4}.*?[a-zA-Z]/.test($('td')[x].innerText.replace("\n", "")));
+	let numDiasTrabajados = tdsDias.filter(x => tdsDias[x].parentElement.children[2].innerText === 'Entrar ITI').length;
 	return numDiasTrabajados * 0.5 * 3600;
 }
 
