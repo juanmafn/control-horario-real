@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Control horario correcto
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Añade la hora buena teniendo en cuenta el cerdito
 // @author       You
 // @match        https://intranet.iti.upv.es/iti-hrm/controlhorario/
