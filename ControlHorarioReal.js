@@ -90,7 +90,6 @@ function main() {
 	let segundosConsumidosCerdito = getSegundosConsumidosCerdito(saldoCerditoEnSegundos);
 	let diferenciaRealEnSegundos = diferenciaEnSegundos + segundosConsumidosCerdito;
 	let htmlDiferenciaReal = getHtmlDiferencia(diferenciaEnSegundos, diferenciaRealEnSegundos);
-	let htmlHoraSaldo = getHtmlDiferencia(diferenciaEnSegundos, diferenciaRealEnSegundos);
 	let htmlHorasSaldo = getHtmlHoraSaldo(saldoCerditoEnSegundos, segundosConsumidosCerdito);
 	setHoraDiferenciaCorrecta(htmlDiferenciaReal);
 	setHoraSaldo(htmlHorasSaldo);
