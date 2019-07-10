@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Slither.io Mods
 // @namespace    http://slitherio.org/
-// @version      3.4
+// @version      0.4
 // @description  Slither.io Mods by Slitherio.Org
 // @author       Slitherio.org
 // @noframes
