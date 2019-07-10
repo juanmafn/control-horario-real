@@ -1,14 +1,13 @@
 // ==UserScript==
 // @name         Slither.io Mods
 // @namespace    http://slitherio.org/
-// @version      0.4
+// @version      3.4
 // @description  Slither.io Mods by Slitherio.Org
 // @author       Slitherio.org
 // @noframes
 // @match        http://slither.io/*
 // @match        https://slither.io/*
 // @run-at       document-body
-// @grant        none
 // ==/UserScript==
 
 (function() {
