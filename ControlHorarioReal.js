@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Control horario correcto
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.6
 // @description  Debajo de las horas normales añado las horas teniendo en cuenta la jornada intensiva
 // @author       Juanma
 // @match        https://intranet.iti.upv.es/iti-hrm/controlhorario/
@@ -27,7 +27,7 @@ function getSegundosFromHoraString(horaString) {
 	return (d2.getTime() - d1.getTime()) / 1000 * signo;
 }
 
-function getHoraHtmlFromSegundos(segundos, conColor, conSigno) {
+function getHoraHtmlFromSegundos2(segundos, conColor, conSigno) {
 	const negativo = segundos < 0;
 	if (negativo) segundos *= -1;
 	const h = parseInt(segundos / 3600);
@@ -37,6 +37,27 @@ function getHoraHtmlFromSegundos(segundos, conColor, conSigno) {
 	const colorStyle = conColor ? ' style="color: ' + (negativo ? 'red' : 'green') + ';"' : '';
 	horaString = conSigno ? horaString : horaString.replace('+', '').replace('-', '');
 	return '<span' + colorStyle + '>' + horaString + '</span>';
+}
+
+function getHoraHtmlFromSegundos(segundos, conColor, conSigno, mostrarSegundos) {
+	const negativo = segundos < 0;
+    let horaString = '';
+	if (negativo) segundos *= -1;
+	const h = parseInt(segundos / 3600);
+	segundos %= 3600;
+	let m = parseInt(segundos / 60);
+    if (segundos < 60 && mostrarSegundos) {
+        if (segundos < 10) segundos = "0" + segundos;
+        horaString = (negativo ? '-' : '+') + '0:00:' + parseInt(segundos);
+    } else {
+		segundos %= 60;
+        if (segundos > 30) m++;
+        if (m < 10) m = "0" + m;
+        horaString = (negativo ? '-' : '+') + h + ':' + m;
+    }
+    const colorStyle = conColor ? ' style="color: ' + (negativo ? 'red' : 'green') + ';"' : '';
+    horaString = conSigno ? horaString : horaString.replace('+', '').replace('-', '');
+    return '<span' + colorStyle + '>' + horaString + '</span>';
 }
 
 /*** ----------------------------------------------- ***/
@@ -111,7 +132,7 @@ function setHoraSaldo(htmlHoraSaldo) {
 }
 
 function setAclaracion(descuentoSegundosCerditoAlDia, segundosXDia) {
-	const descuentoHorasCerditoAlDia = getHoraHtmlFromSegundos(descuentoSegundosCerditoAlDia, false, false);
+	const descuentoHorasCerditoAlDia = getHoraHtmlFromSegundos(descuentoSegundosCerditoAlDia, false, false, true);
 	const horasXDia = getHoraHtmlFromSegundos(segundosXDia, false, false);
 	$($('.row.nopadding.widgets')[0]).after(`
 		<div class="row nopadding widgets">
