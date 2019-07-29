@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Control horario correcto
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.7
 // @description  Debajo de las horas normales añado las horas teniendo en cuenta la jornada intensiva
 // @author       Juanma
 // @match        https://intranet.iti.upv.es/iti-hrm/controlhorario/
@@ -92,7 +92,8 @@ function getDiasLaborablesRestantes() {
 }
 
 function getHorasAlDiaHastaFinDeMesEnSegundos() {
-	const horasAlDiaHtml = $(getCabecerasDOM()[5]).html();
+	const horasAlDiaHtml = $(getCabecerasDOM()[5]).html().trim();
+    if (horasAlDiaHtml == '-') return '-';
 	const horasAlDia = getHoraStringFromHtml(horasAlDiaHtml);
 	return getSegundosFromHoraString(horasAlDia);
 }
@@ -192,8 +193,11 @@ function getHtmlDiferencia(diferenciaEnSegundos, diferenciaRealEnSegundos) {
 	return getHoraHtmlFromSegundos(diferenciaEnSegundos, true, true) + '<br>' + getHoraHtmlFromSegundos(diferenciaRealEnSegundos, true, true);
 }
 
-function getHtmlHorasAlDia(segundosXDia, diasLaborablesRestantes, diferenciaRealEnSegundos) {
-	const horasAlDiaHastaFinDeMesEnSegundos = getHorasAlDiaHastaFinDeMesEnSegundos();
+function getHtmlHorasAlDia(segundosXDia, diasLaborablesRestantes, diferenciaRealEnSegundos, diferenciaEnSegundos) {
+    const horasAlDiaHastaFinDeMesEnSegundos = getHorasAlDiaHastaFinDeMesEnSegundos();
+    if (horasAlDiaHastaFinDeMesEnSegundos == '-') {
+        return getHoraHtmlFromSegundos(-diferenciaEnSegundos, false, true) + '<br>' + getHoraHtmlFromSegundos(-diferenciaRealEnSegundos, false, true);
+    }
 	const segundosAcumulados = diferenciaRealEnSegundos / diasLaborablesRestantes;
 	const segundosDia = segundosXDia - segundosAcumulados;
 	const htmlHorasAlDia = getHoraHtmlFromSegundos(horasAlDiaHastaFinDeMesEnSegundos, false, true) + '<br>' + getHoraHtmlFromSegundos(segundosDia, false, true)
@@ -228,7 +232,7 @@ function main() {
 	const htmlHorasEstipuladas = getHtmlHorasEstipuladas(horasEstipuladasEnSegundos, segundosEstipiladosEnJornadaIntensiva);
 	const htmlHorasEstipuladasAlFinalDelDia = getHtmlHorasEstipuladasAlFinalDelDia(horasEstipuladasAlFinalDelDiaEnSegundos, diasTrabajados, segundosXDia);
 	const htmlDiferenciaReal = getHtmlDiferencia(diferenciaEnSegundos, diferenciaRealEnSegundos);
-	const htmlHorasAlDia = getHtmlHorasAlDia(segundosXDia, diasLaborablesRestantes, diferenciaRealEnSegundos);
+	const htmlHorasAlDia = getHtmlHorasAlDia(segundosXDia, diasLaborablesRestantes, diferenciaRealEnSegundos, diferenciaEnSegundos);
 	const htmlHorasSaldo = getHtmlHoraSaldo(saldoCerditoEnSegundos, segundosConsumidosCerdito);
 
 	// Seteamos los HTML's
