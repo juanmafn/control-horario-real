@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Control horario correcto
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.8
 // @description  Debajo de las horas normales añado las horas teniendo en cuenta la jornada intensiva
 // @author       Juanma
 // @match        https://intranet.iti.upv.es/iti-hrm/controlhorario/
@@ -92,14 +92,14 @@ function getDiasLaborablesRestantes() {
 }
 
 function getHorasAlDiaHastaFinDeMesEnSegundos() {
-	const horasAlDiaHtml = $(getCabecerasDOM()[5]).html().trim();
+	const horasAlDiaHtml = $(getCabecerasDOM()[9]).html().trim();
     if (horasAlDiaHtml == '-') return '-';
 	const horasAlDia = getHoraStringFromHtml(horasAlDiaHtml);
 	return getSegundosFromHoraString(horasAlDia);
 }
 
 function getSaldoCerditoEnSegundos() {
-	const horasSaldoCerditoHtml = $(getCabecerasDOM()[6]).html();
+	const horasSaldoCerditoHtml = $(getCabecerasDOM()[10]).html();
 	const horasSaldoCerdito = getHoraStringFromHtml(horasSaldoCerditoHtml);
 	return getSegundosFromHoraString(horasSaldoCerdito);
 }
@@ -125,11 +125,11 @@ function setHoraDiferenciaCorrecta(htmlDiferenciaReal) {
 }
 
 function setHorasAlDia(htmlHorasAlDia) {
-	$(getCabecerasDOM()[5]).html(htmlHorasAlDia);
+	$(getCabecerasDOM()[9]).html(htmlHorasAlDia);
 }
 
 function setHoraSaldo(htmlHoraSaldo) {
-	$(getCabecerasDOM()[6]).html(htmlHoraSaldo);
+	$(getCabecerasDOM()[10]).html(htmlHoraSaldo);
 }
 
 function setAclaracion(descuentoSegundosCerditoAlDia, segundosXDia) {
