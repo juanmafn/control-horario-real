@@ -88,7 +88,7 @@ function getDiferenciaEnSegundos() {
 }
 
 function getDiasLaborablesRestantes() {
-	return +$(getCabecerasDOM()[4]).html().trim();
+	return +$(getCabecerasDOM()[7]).html().trim();
 }
 
 function getHorasAlDiaHastaFinDeMesEnSegundos() {
